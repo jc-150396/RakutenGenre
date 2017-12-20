@@ -60,78 +60,94 @@ namespace GenreJson
 
         private async void Serch_Click(object sender, EventArgs e)
         {
-            var layout2 = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
-            var scrView = new ScrollView { Orientation = ScrollOrientation.Vertical };
-            layout2.Children.Add(scrView);
-            var layout = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
-            scrView.Content = layout;
-
-            string genrecode = booksGenreId.Text;
-            requestUrl = url + "&booksGenreId=" + genrecode;    //URLにジャンルIDを挿入
-
-
-
-
-
-
-            //-------------------------------------ボタン再配置--------------------------
-            booksGenreId = new Entry    //EntryでISBNコードを入力
+            try
             {
-                Placeholder = "ISBNコードを入力",
-                PlaceholderColor = Color.Gray,
-                WidthRequest = 170
-            };
-            layout.Children.Add(booksGenreId);
+                var layout2 = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
+                var scrView = new ScrollView { Orientation = ScrollOrientation.Vertical };
+                layout2.Children.Add(scrView);
+                var layout = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
+                scrView.Content = layout;
 
-            var Serch = new Button
-            {
-                WidthRequest = 60,
-                Text = "Serch!",
-                TextColor = Color.Red,
-            };
-            layout.Children.Add(Serch);
-            Serch.Clicked += Serch_Click;
-            //-------------------------------------ボタン再配置--------------------------
+                string genrecode = booksGenreId.Text;
+                requestUrl = url + "&booksGenreId=" + genrecode;    //URLにジャンルIDを挿入
 
 
-            /*
-            //HTTPアクセス //書き方が古いらしい
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(requestUrl);
-            req.Method = "GET";
-            HttpWebResponse res = req.GetResponseAsync();
-            */
-
-            /*
-            // HTTPアクセス 
-            var req = WebRequest.Create(requestUrl);
-            var res = req.GetResponseAsync();
-
-            // レスポンス(JSON)をオブジェクトに変換 
-            Stream s = GetMemoryStream(res);
-            StreamReader sr = new StreamReader(s);
-            string str = sr.ReadToEnd();
-            */
-
-            //HTTPアクセスメソッドを呼び出す
-            string APIdata = await GetApiAsync();
-
-            //この辺よく分からん
-            Stream s = GetMemoryStream(APIdata);
-            StreamReader sr = new StreamReader(s);
-            string str = sr.ReadToEnd();
+                int unkounko = unko();
 
 
-            var info = JsonConvert.DeserializeObject<RakutenGenre>(str); //JSON形式から戻す…戻したい 
 
-            foreach (var r in info.children)
-            {
-                layout.Children.Add(new Label { Text = $"ID: { r.booksGenreId }" });
-                layout.Children.Add(new Label { Text = $"GenreName: { r.booksGenreName }" });
-            };
-            layout.Children.Add(new Label { Text = "読み取り終了", TextColor = Color.Black });
-            layout.Children.Add(new Label { Text = str }); //JSON形式で書き出す
+                //-------------------------------------ボタン再配置--------------------------
+                booksGenreId = new Entry    //EntryでISBNコードを入力
+                {
+                    Placeholder = "ISBNコードを入力",
+                    PlaceholderColor = Color.Gray,
+                    WidthRequest = unkounko
+                };
+                layout.Children.Add(booksGenreId);
 
-            Content = layout2;
+                var Serch = new Button
+                {
+                    WidthRequest = 60,
+                    Text = "Serch!",
+                    TextColor = Color.Red,
+                };
+                layout.Children.Add(Serch);
+                Serch.Clicked += Serch_Click;
+                //-------------------------------------ボタン再配置--------------------------
+
+
+                /*
+                //HTTPアクセス //書き方が古いらしい
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(requestUrl);
+                req.Method = "GET";
+                HttpWebResponse res = req.GetResponseAsync();
+                */
+
+                /*
+                // HTTPアクセス 
+                var req = WebRequest.Create(requestUrl);
+                var res = req.GetResponseAsync();
+
+                // レスポンス(JSON)をオブジェクトに変換 
+                Stream s = GetMemoryStream(res);
+                StreamReader sr = new StreamReader(s);
+                string str = sr.ReadToEnd();
+                */
+
+                //HTTPアクセスメソッドを呼び出す
+                string APIdata = await GetApiAsync();
+
+                //この辺よく分からん
+                Stream s = GetMemoryStream(APIdata);
+                StreamReader sr = new StreamReader(s);
+                string str = sr.ReadToEnd();
+
+
+                var info = JsonConvert.DeserializeObject<RakutenGenre>(str); //JSON形式から戻す…戻したい 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                foreach (var r in info.children)
+                {
+                    layout.Children.Add(new Label { Text = $"ID: { r.booksGenreId}" });
+                    layout.Children.Add(new Label { Text = $"GenreName: { r.booksGenreName }" });
+                };
+                layout.Children.Add(new Label { Text = "読み取り終了", TextColor = Color.Black });
+                layout.Children.Add(new Label { Text = str }); //JSON形式で書き出す
+
+                Content = layout2;
+            }
+            catch  (Exception x){ await DisplayAlert("警告", x.ToString(), "ok"); }
         }
 
 
@@ -157,6 +173,13 @@ namespace GenreJson
         {
             string a = text;
             return new MemoryStream(Encoding.UTF8.GetBytes(a));
+        }
+        public int unko()
+        {
+            int a=0;
+            for(int i = 0;170 > i;i++)
+            a++;
+            return a;
         }
     }
 }
