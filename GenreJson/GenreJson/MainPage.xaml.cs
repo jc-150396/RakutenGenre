@@ -72,7 +72,7 @@ namespace GenreJson
                 requestUrl = url + "&booksGenreId=" + genrecode;    //URLにジャンルIDを挿入
 
 
-                int unkounko = unko();
+                int kk = k();
 
 
 
@@ -81,7 +81,7 @@ namespace GenreJson
                 {
                     Placeholder = "ISBNコードを入力",
                     PlaceholderColor = Color.Gray,
-                    WidthRequest = unkounko
+                    WidthRequest = kk
                 };
                 layout.Children.Add(booksGenreId);
 
@@ -122,20 +122,11 @@ namespace GenreJson
                 StreamReader sr = new StreamReader(s);
                 string str = sr.ReadToEnd();
 
+                await DisplayAlert("警告", str, "ok");
 
                 var info = JsonConvert.DeserializeObject<RakutenGenre>(str); //JSON形式から戻す…戻したい 
 
-
-
-
-
-
-
-
-
-
-
-
+                
 
                 foreach (var r in info.children)
                 {
@@ -174,7 +165,7 @@ namespace GenreJson
             string a = text;
             return new MemoryStream(Encoding.UTF8.GetBytes(a));
         }
-        public int unko()
+        public int k()
         {
             int a=0;
             for(int i = 0;170 > i;i++)
