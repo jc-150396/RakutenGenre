@@ -28,7 +28,8 @@ namespace GenreJson
             InitializeComponent();
 
 
-            url = "https://app.rakuten.co.jp/services/api/BooksGenre/Search/20170404?format=json&applicationId=1051637750796067320";
+            url = "https://app.rakuten.co.jp/services/api/BooksGenre/Search/20121128?format=json&applicationId=1051637750796067320";
+
 
             var layout = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
 
@@ -65,8 +66,12 @@ namespace GenreJson
             var layout = new StackLayout { HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.CenterAndExpand };
             scrView.Content = layout;
 
-            string isbncode = booksGenreId.Text;
-            requestUrl = url + "&isbn=" + isbncode;    //URLにISBNコードを挿入
+            string genrecode = booksGenreId.Text;
+            requestUrl = url + "&booksGenreId=" + genrecode;    //URLにジャンルIDを挿入
+
+
+
+
 
 
             //-------------------------------------ボタン再配置--------------------------
