@@ -27,6 +27,7 @@ namespace GenreJson
             public string booksGenreName { get; set; }
 
             public int genreLevel { get; set; }
+
         }
 
 
