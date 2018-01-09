@@ -100,6 +100,10 @@ namespace GenreJson
                 string isbncode = isbn.Text;
                 requestUrl = url + "&booksGenreId=" + isbncode; //URLにISBNコードを挿入
 
+
+
+                https://app.rakuten.co.jp/services/api/BooksGenre/Search/20121128?format=json&booksGenreId=001&applicationId=1008026300680682252
+
                 //------------------------------ボタン再配置--------------------------
                 isbn = new Entry    //EntryでISBNコードを入力
                 {
@@ -142,7 +146,7 @@ namespace GenreJson
 
                 //パースする *重要*   パースとは、文法に従って分析する、品詞を記述する、構文解析する、などの意味を持つ英単語。
                 var json = JObject.Parse(APIdata); //stringのAPIdataをJObjectにパース
-                var Items = JArray.Parse(json["Items"].ToString()); //Itemsは配列なのでJArrayにパース
+                var Items = JArray.Parse(json["children"].ToString()); //Itemsは配列なのでJArrayにパース
 
                 //結果を出力
                 foreach (JObject jobj in Items)
@@ -152,17 +156,7 @@ namespace GenreJson
 
 
                     //↓のように取り出す
-                    JValue titleValue = (JValue)jobj["title"];
-                    string title = (string)titleValue.Value;
-
-                    JValue titleKanaValue = (JValue)jobj["titleKana"];
-                    string titleKana = (string)titleKanaValue.Value;
-
-                    JValue itemCaptionValue = (JValue)jobj["itemCaption"];
-                    string itemCaption = (string)itemCaptionValue.Value;
-
-                    JValue gazoValue = (JValue)jobj["largeImageUrl"];
-                    string gazo = (string)gazoValue.Value;
+                    
 
                     JValue genreValue = (JValue)jobj["booksGenreId"];
                     string genre = (string)genreValue.Value;
